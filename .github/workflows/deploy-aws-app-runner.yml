@@ -52,16 +52,16 @@ jobs:
       - name: Deploy production with aws CLI
         if: ${{ inputs.environment }} == 'Production'
         run: |
-          aws apprunner start-deployment --service-arn="${{ vars.SERVICE_ARN }}"
+          aws apprunner start-deployment --service-arn="${{ secrets.SERVICE_ARN }}"
 
       - name: Wait for Deployment to Begin
         run: |
-          STATUS=$(aws apprunner describe-service --query="Service.Status" --output=text --service-arn="${{ vars.SERVICE_ARN }}")
+          STATUS=$(aws apprunner describe-service --query="Service.Status" --output=text --service-arn="${{ secrets.SERVICE_ARN }}")
 
           until [ "${STATUS}" == "OPERATION_IN_PROGRESS" ];
           do
             echo "$(date) ${STATUS}"
-            STATUS=$(aws apprunner describe-service --query="Service.Status" --output=text --service-arn="${{ vars.SERVICE_ARN }}")
+            STATUS=$(aws apprunner describe-service --query="Service.Status" --output=text --service-arn="${{ secrets.SERVICE_ARN }}")
             sleep 10;
           done
 
@@ -69,7 +69,7 @@ jobs:
         id: status
         timeout-minutes: 10
         run: |
-          STATUS=$(aws apprunner describe-service --query="Service.Status" --output=text --service-arn="${{ vars.SERVICE_ARN }}")
+          STATUS=$(aws apprunner describe-service --query="Service.Status" --output=text --service-arn="${{ secrets.SERVICE_ARN }}")
 
           while [ "${STATUS}" == "OPERATION_IN_PROGRESS" ];
           do

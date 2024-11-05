@@ -23,7 +23,7 @@ jobs:
   build:
     environment:
       name: ${{ inputs.environment }}
-      url: ${{ secrets.URL }}
+      url: ${{ vars.URL }}
     runs-on: ubuntu-latest
     permissions:
       packages: read

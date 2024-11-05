@@ -74,7 +74,7 @@ jobs:
           while [ "${STATUS}" == "OPERATION_IN_PROGRESS" ];
           do
             echo "$(date) ${STATUS}"
-            STATUS=$(aws apprunner describe-service --query="Service.Status" --output=text --service-arn="${{ vars.SERVICE_ARN }}")
+            STATUS=$(aws apprunner describe-service --query="Service.Status" --output=text --service-arn="${{ secrets.SERVICE_ARN }}")
             sleep 30;
           done
           echo "deployment_status=${STATUS}" >> "$GITHUB_OUTPUT"
